@@ -61,7 +61,7 @@ class PaymentView(APIView):
             payment.status = Payment.STATUS_CANCELED
             payment.save()
             # render(request, 'payment-result.html', context={'status': Payment.STATUS_CANCELED})
-            return Response({'detail': 'Payment verification failed.'},
+            return Response({'detail': 'Payment canceled by user.'},
                             status=status.HTTP_400_BAD_REQUEST)
         
         r = requests.post('bank_verify_url', data={})
@@ -81,4 +81,4 @@ class PaymentView(APIView):
             expire_time=timezone.now() + timezone.timedelta(days=payment.package.duration.days)
         )
 
-        return Response()
+        return Response({'detail': 'Payment is successful'})
